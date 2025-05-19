@@ -1,14 +1,14 @@
 package com.kiselev.userbalance.service;
 
-import com.kiselev.userbalance.adapter.entity.EmailDataEntity;
-import com.kiselev.userbalance.adapter.entity.PhoneDataEntity;
-import com.kiselev.userbalance.adapter.entity.UserEntity;
-import com.kiselev.userbalance.adapter.repository.EmailDataRepository;
-import com.kiselev.userbalance.adapter.repository.PhoneDataRepository;
-import com.kiselev.userbalance.adapter.repository.UserRepository;
+import com.kiselev.userbalance.adapter.sql.entity.EmailDataEntity;
+import com.kiselev.userbalance.adapter.sql.entity.PhoneDataEntity;
+import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
+import com.kiselev.userbalance.adapter.sql.mapper.UserMapper;
+import com.kiselev.userbalance.adapter.sql.repository.EmailDataRepository;
+import com.kiselev.userbalance.adapter.sql.repository.PhoneDataRepository;
+import com.kiselev.userbalance.adapter.sql.repository.UserRepository;
 import com.kiselev.userbalance.domain.User;
-import com.kiselev.userbalance.model.dto.response.UserResponseDto;
-import com.kiselev.userbalance.model.mapper.UserMapper;
+import com.kiselev.userbalance.port.rest.response.UserResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Cacheable(value = "userById", key = "#id")
-    public UserResponseDto findById(Long id) {
+    public UserResponse findById(Long id) {
         UserEntity entity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -44,7 +45,7 @@ public class UserService {
 
         User domain = userMapper.toDomain(entity);
 
-        return new UserResponseDto(
+        return new UserResponse(
                 domain.getId(),
                 domain.getName(),
                 domain.getDateOfBirth(),
@@ -57,7 +58,7 @@ public class UserService {
         );
     }
 
-    public List<UserResponseDto> search(
+    public List<UserResponse> search(
             String name,
             LocalDate dateOfBirth,
             String phone,
@@ -94,7 +95,7 @@ public class UserService {
         }
 
         return userRepository.findAll(spec, pageable).stream()
-                .map(user -> new UserResponseDto(
+                .map(user -> new UserResponse(
                         user.getId(),
                         user.getName(),
                         user.getDateOfBirth(),

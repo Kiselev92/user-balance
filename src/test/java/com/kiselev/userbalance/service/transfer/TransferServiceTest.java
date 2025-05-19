@@ -1,8 +1,9 @@
 package com.kiselev.userbalance.service.transfer;
 
-import com.kiselev.userbalance.adapter.entity.AccountEntity;
-import com.kiselev.userbalance.adapter.entity.UserEntity;
-import com.kiselev.userbalance.adapter.repository.AccountRepository;
+import com.kiselev.userbalance.adapter.sql.entity.AccountEntity;
+import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
+import com.kiselev.userbalance.adapter.sql.repository.AccountRepository;
+import com.kiselev.userbalance.service.TransferService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
