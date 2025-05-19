@@ -1,5 +1,7 @@
 package com.kiselev.userbalance.service;
 
+import com.kiselev.userbalance.adapter.elastic.UserSearchDocument;
+import com.kiselev.userbalance.adapter.elastic.UserSearchRepository;
 import com.kiselev.userbalance.adapter.sql.entity.EmailDataEntity;
 import com.kiselev.userbalance.adapter.sql.entity.PhoneDataEntity;
 import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
@@ -34,6 +36,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final EmailDataRepository emailDataRepository;
     private final PhoneDataRepository phoneDataRepository;
+    private final UserSearchRepository userSearchRepository;
     private final UserMapper userMapper;
 
     @Cacheable(value = "userById", key = "#id")
@@ -64,16 +67,39 @@ public class UserService {
             String phone,
             String email,
             int offset,
-            int limit
-    ) {
+            int limit) {
         log.info("Searching users: name={}, dob={}, phone={}, email={}, offset={}, limit={}",
                 name, dateOfBirth, phone, email, offset, limit);
+
+        boolean onlyName = name != null && !name.isBlank()
+                && dateOfBirth == null
+                && (email == null || email.isBlank())
+                && (phone == null || phone.isBlank());
+
+        if (onlyName) {
+            log.info("Searching in Elasticsearch by name: {}", name);
+
+            List<UserSearchDocument> searchResults = userSearchRepository.findByNameContainingIgnoreCase(name);
+            List<Long> userIds = searchResults.stream()
+                    .map(UserSearchDocument::getId)
+                    .toList();
+
+            return userRepository.findAllById(userIds).stream()
+                    .map(user -> new UserResponse(
+                            user.getId(),
+                            user.getName(),
+                            user.getDateOfBirth(),
+                            user.getEmailDataEntities().stream().map(EmailDataEntity::getEmail).toList(),
+                            user.getPhoneDataEntities().stream().map(PhoneDataEntity::getPhone).toList()
+                    ))
+                    .toList();
+        }
 
         Pageable pageable = PageRequest.of(offset, limit);
         Specification<UserEntity> spec = Specification.where(null);
 
         if (name != null && !name.isBlank()) {
-            spec = spec.and((root, query, cb) -> cb.like(root.get("name"), name + "%"));
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("name")), name.toLowerCase() + "%"));
         }
 
         if (dateOfBirth != null) {
@@ -93,18 +119,14 @@ public class UserService {
                 return cb.equal(emailJoin.get("email"), email);
             });
         }
-
+        // Для примера поиск по name с помощью Elastic
         return userRepository.findAll(spec, pageable).stream()
                 .map(user -> new UserResponse(
                         user.getId(),
                         user.getName(),
                         user.getDateOfBirth(),
-                        user.getEmailDataEntities().stream()
-                                .map(EmailDataEntity::getEmail)
-                                .toList(),
-                        user.getPhoneDataEntities().stream()
-                                .map(PhoneDataEntity::getPhone)
-                                .toList()
+                        user.getEmailDataEntities().stream().map(EmailDataEntity::getEmail).toList(),
+                        user.getPhoneDataEntities().stream().map(PhoneDataEntity::getPhone).toList()
                 ))
                 .toList();
     }
