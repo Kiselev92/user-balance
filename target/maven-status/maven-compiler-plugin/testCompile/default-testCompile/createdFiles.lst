@@ -1,0 +1,5 @@
+com\kiselev\userbalance\UserBalanceApplicationTests.class
+com\kiselev\userbalance\AbstractMockMvcTest.class
+com\kiselev\userbalance\IntegrationTest.class
+com\kiselev\userbalance\AbstractIntegrationTest.class
+com\kiselev\userbalance\PostgresContainerExtension.class
