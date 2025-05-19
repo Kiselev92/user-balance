@@ -34,9 +34,9 @@ com\kiselev\userbalance\domain\EmailData$EmailDataBuilder.class
 com\kiselev\userbalance\model\mapper\AccountMapper.class
 com\kiselev\userbalance\port\AccountController.class
 com\kiselev\userbalance\adapter\repository\UserSearchRepository.class
-com\kiselev\userbalance\adapter\common\util\DefaultUserInitializer.class
 com\kiselev\userbalance\model\dto\response\AccountResponseDto.class
 com\kiselev\userbalance\adapter\repository\AccountRepository.class
+com\kiselev\userbalance\adapter\common\util\DefaultTestUserInitializer.class
 com\kiselev\userbalance\model\dto\response\PhoneDataResponseDto.class
 com\kiselev\userbalance\service\transfer\TransferService.class
 com\kiselev\userbalance\model\mapper\PhoneDataMapperImpl.class
@@ -46,8 +46,8 @@ com\kiselev\userbalance\model\dto\response\UserResponseDto.class
 com\kiselev\userbalance\service\security\JwtService.class
 com\kiselev\userbalance\domain\Account.class
 com\kiselev\userbalance\domain\PhoneData$PhoneDataBuilder.class
-com\kiselev\userbalance\adapter\common\util\EmailDataValidator.class
 com\kiselev\userbalance\service\AccountService.class
+com\kiselev\userbalance\adapter\entity\AccountEntity$AccountEntityBuilder.class
 com\kiselev\userbalance\adapter\entity\PhoneDataEntity.class
 com\kiselev\userbalance\port\UserController.class
 com\kiselev\userbalance\port\PhoneDataController.class
@@ -57,4 +57,3 @@ com\kiselev\userbalance\model\mapper\UserMapper.class
 com\kiselev\userbalance\model\mapper\EmailDataMapper.class
 com\kiselev\userbalance\model\dto\search\UserSearchDocument$UserSearchDocumentBuilder.class
 com\kiselev\userbalance\port\request\TransferRequestDto.class
-com\kiselev\userbalance\adapter\common\util\PhoneDataValidator.class

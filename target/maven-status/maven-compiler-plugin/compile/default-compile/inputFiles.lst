@@ -12,12 +12,12 @@ C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\service\Em
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\port\UserController.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\port\search\UserSearchController.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\config\ObjectMapperConfig.java
+C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\common\util\DefaultTestUserInitializer.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\response\UserResponseDto.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\response\PhoneDataResponseDto.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\repository\UserRepository.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\repository\UserSearchRepository.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\response\EmailDataResponseDto.java
-C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\common\util\EmailDataValidator.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\port\transfer\TransferController.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\entity\PhoneDataEntity.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\mapper\PhoneDataMapper.java
@@ -30,8 +30,6 @@ C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\response\AccountResponseDto.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\repository\AccountRepository.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\model\dto\EmailDataDto.java
-C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\common\util\PhoneDataValidator.java
-C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\common\util\DefaultUserInitializer.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\port\request\TransferRequestDto.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\service\PhoneDataService.java
 C:\Projects\libary\user-balance\src\main\java\com\kiselev\userbalance\adapter\entity\EmailDataEntity.java
