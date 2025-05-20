@@ -1,7 +1,6 @@
 package com.kiselev.userbalance.port.rest.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.math.BigDecimal;
 
 public record AccountResponse(

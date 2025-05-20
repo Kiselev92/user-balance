@@ -5,12 +5,11 @@ import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
 import com.kiselev.userbalance.adapter.sql.mapper.PhoneDataMapper;
 import com.kiselev.userbalance.adapter.sql.repository.PhoneDataRepository;
 import com.kiselev.userbalance.adapter.sql.repository.UserRepository;
-import com.kiselev.userbalance.port.rest.response.PhoneDataResponse;
 import com.kiselev.userbalance.port.rest.request.PhoneDataRequest;
+import com.kiselev.userbalance.port.rest.response.PhoneDataResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

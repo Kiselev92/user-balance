@@ -1,8 +1,8 @@
 package com.kiselev.userbalance.port.rest;
 
+import com.kiselev.userbalance.port.rest.request.PhoneDataRequest;
 import com.kiselev.userbalance.port.rest.response.PhoneDataResponse;
 import com.kiselev.userbalance.service.PhoneDataService;
-import com.kiselev.userbalance.port.rest.request.PhoneDataRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

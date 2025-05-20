@@ -13,5 +13,4 @@ public class UserBalanceApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserBalanceApplication.class, args);
     }
-
 }

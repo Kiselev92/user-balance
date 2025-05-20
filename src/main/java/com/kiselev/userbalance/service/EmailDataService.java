@@ -5,12 +5,11 @@ import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
 import com.kiselev.userbalance.adapter.sql.mapper.EmailDataMapper;
 import com.kiselev.userbalance.adapter.sql.repository.EmailDataRepository;
 import com.kiselev.userbalance.adapter.sql.repository.UserRepository;
-import com.kiselev.userbalance.port.rest.response.EmailDataResponse;
 import com.kiselev.userbalance.port.rest.request.EmailDataRequest;
+import com.kiselev.userbalance.port.rest.response.EmailDataResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

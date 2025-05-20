@@ -23,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +36,7 @@ public class UserService {
     private final EmailDataRepository emailDataRepository;
     private final PhoneDataRepository phoneDataRepository;
     private final UserSearchRepository userSearchRepository;
+    private final UserSearchIndexer userSearchIndexer;
     private final UserMapper userMapper;
 
     @Cacheable(value = "userById", key = "#id")
@@ -47,27 +47,15 @@ public class UserService {
         log.info("Fetching user by id: {}", id);
 
         User domain = userMapper.toDomain(entity);
-
-        return new UserResponse(
-                domain.getId(),
-                domain.getName(),
-                domain.getDateOfBirth(),
-                entity.getEmailDataEntities().stream()
-                        .map(EmailDataEntity::getEmail)
-                        .toList(),
-                entity.getPhoneDataEntities().stream()
-                        .map(PhoneDataEntity::getPhone)
-                        .toList()
-        );
+        return userMapper.toResponse(domain);
     }
 
-    public List<UserResponse> search(
-            String name,
-            LocalDate dateOfBirth,
-            String phone,
-            String email,
-            int offset,
-            int limit) {
+    public List<UserResponse> search(String name,
+                                     LocalDate dateOfBirth,
+                                     String phone,
+                                     String email,
+                                     int offset,
+                                     int limit) {
         log.info("Searching users: name={}, dob={}, phone={}, email={}, offset={}, limit={}",
                 name, dateOfBirth, phone, email, offset, limit);
 
@@ -85,17 +73,11 @@ public class UserService {
                     .toList();
 
             return userRepository.findAllById(userIds).stream()
-                    .map(user -> new UserResponse(
-                            user.getId(),
-                            user.getName(),
-                            user.getDateOfBirth(),
-                            user.getEmailDataEntities().stream().map(EmailDataEntity::getEmail).toList(),
-                            user.getPhoneDataEntities().stream().map(PhoneDataEntity::getPhone).toList()
-                    ))
+                    .map(userMapper::toDomain)
+                    .map(userMapper::toResponse)
                     .toList();
         }
 
-        Pageable pageable = PageRequest.of(offset, limit);
         Specification<UserEntity> spec = Specification.where(null);
 
         if (name != null && !name.isBlank()) {
@@ -108,26 +90,23 @@ public class UserService {
 
         if (phone != null && !phone.isBlank()) {
             spec = spec.and((root, query, cb) -> {
-                Join<UserEntity, PhoneDataEntity> phoneJoin = root.join("phoneDataEntities", JoinType.LEFT);
-                return cb.equal(phoneJoin.get("phone"), phone);
+                Join<UserEntity, PhoneDataEntity> join = root.join("phoneDataEntities", JoinType.LEFT);
+                return cb.equal(join.get("phone"), phone);
             });
         }
 
         if (email != null && !email.isBlank()) {
             spec = spec.and((root, query, cb) -> {
-                Join<UserEntity, EmailDataEntity> emailJoin = root.join("emailDataEntities", JoinType.LEFT);
-                return cb.equal(emailJoin.get("email"), email);
+                Join<UserEntity, EmailDataEntity> join = root.join("emailDataEntities", JoinType.LEFT);
+                return cb.equal(join.get("email"), email);
             });
         }
-        // Для примера поиск по name с помощью Elastic
+
+        Pageable pageable = PageRequest.of(offset, limit);
+
         return userRepository.findAll(spec, pageable).stream()
-                .map(user -> new UserResponse(
-                        user.getId(),
-                        user.getName(),
-                        user.getDateOfBirth(),
-                        user.getEmailDataEntities().stream().map(EmailDataEntity::getEmail).toList(),
-                        user.getPhoneDataEntities().stream().map(PhoneDataEntity::getPhone).toList()
-                ))
+                .map(userMapper::toDomain)
+                .map(userMapper::toResponse)
                 .toList();
     }
 
@@ -157,6 +136,7 @@ public class UserService {
         }
 
         userRepository.save(user);
+        userSearchIndexer.indexUser(user);
     }
 
     @Transactional
@@ -185,5 +165,6 @@ public class UserService {
         }
 
         userRepository.save(user);
+        userSearchIndexer.indexUser(user);
     }
 }

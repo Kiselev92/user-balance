@@ -4,6 +4,7 @@ import com.kiselev.userbalance.adapter.sql.entity.AccountEntity;
 import com.kiselev.userbalance.adapter.sql.entity.EmailDataEntity;
 import com.kiselev.userbalance.adapter.sql.entity.UserEntity;
 import com.kiselev.userbalance.adapter.sql.repository.UserRepository;
+import com.kiselev.userbalance.service.CachedUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.Random;
 public class UserInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final CachedUserService cachedUserService;
 
     @Override
     public void run(String... args) {
@@ -48,7 +50,8 @@ public class UserInitializer implements CommandLineRunner {
             build.setPhoneDataEntities(Collections.emptyList());
             build.setAccountEntity(balance);
 
-            userRepository.save(build);
+            UserEntity saved = userRepository.save(build);
+            cachedUserService.cacheUser(saved, emailString, password);
         }
     }
 }

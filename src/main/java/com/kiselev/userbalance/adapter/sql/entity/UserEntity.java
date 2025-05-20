@@ -1,11 +1,11 @@
 package com.kiselev.userbalance.adapter.sql.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +32,15 @@ public class UserEntity {
     private LocalDate dateOfBirth;
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private AccountEntity accountEntity;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<EmailDataEntity> emailDataEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PhoneDataEntity> phoneDataEntities = new ArrayList<>();
 
     public UserEntity(Long id) {

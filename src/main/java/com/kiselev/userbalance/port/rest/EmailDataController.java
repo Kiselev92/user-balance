@@ -1,8 +1,8 @@
 package com.kiselev.userbalance.port.rest;
 
+import com.kiselev.userbalance.port.rest.request.EmailDataRequest;
 import com.kiselev.userbalance.port.rest.response.EmailDataResponse;
 import com.kiselev.userbalance.service.EmailDataService;
-import com.kiselev.userbalance.port.rest.request.EmailDataRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

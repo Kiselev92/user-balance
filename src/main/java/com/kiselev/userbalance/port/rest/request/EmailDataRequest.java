@@ -15,4 +15,4 @@ public record EmailDataRequest(
         @NotBlank(message = "Email is required")
         @Email
         String email
-){}
+) {}
