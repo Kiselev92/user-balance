@@ -4,4 +4,4 @@
 Вставить DB_HOST=localhost;DB_NAME=user_balance;DB_PASSWORD=postgres;DB_PORT=5432;DB_USER=postgres
 4. Запустить приложение
 5. http://localhost:8080/swagger-ui/index.html ссылка на swagger
-6. Добавил класс userInitializer, который напрямую генерит пользователей с email для наглядной работы.
+6. Добавил класс userInitializer, который напрямую генерит пользователей с email для наглядной работы
